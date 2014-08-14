@@ -2,9 +2,8 @@ from operator import itemgetter
 import sys
 import urllib
 import urlparse
-sys.path.append('./resources/lib')
-import requests2
-
+#sys.path.append('./resources/lib/')
+import requests
 
 def build_url(query):
     return base_url + '?' + urllib.urlencode(query)
@@ -29,8 +28,10 @@ class Subsonic(object):
         for index in r.json()['subsonic-response']['indexes']['index']:
             for artist in index['artist']:
                 item = {}
-                item['name'] = artist['name'].encode('utf-8')
-                item['id'] = artist['id'].encode('utf-8')
+                #item['name'] = artist['name'].encode('utf-8')
+                #item['id'] = artist['id'].encode('utf-8')
+                item['name'] = artist['name']
+                item['id'] = artist['id']
                 artists.append(item)
 
         return artists
@@ -117,8 +118,10 @@ def albums_by_genre_list():
     albums = subsonic.albums_by_genre_list(genre[0])
     for album in albums:
         url = build_url({'mode': 'track_list',
-                         'foldername': unicode(album['title']).encode('utf-8'),
-                         'album_id': unicode(album['id']).encode('utf-8')})
+                         #'foldername': unicode(album['title']).encode('utf-8'),
+                         #'album_id': unicode(album['id']).encode('utf-8')})
+                         'foldername': unicode(album['title']),
+                         'album_id': unicode(album['id'])})						 
         li = xbmcgui.ListItem(album['artist'] + ' - ' + album['title'])
         li.setIconImage(subsonic.cover_art(album['id']))
         li.setThumbnailImage(subsonic.cover_art(album['id']))
@@ -158,8 +161,10 @@ def album_list():
     albums = subsonic.music_directory_list(artist_id[0])
     for album in albums:
         url = build_url({'mode': 'track_list',
-                         'foldername': unicode(album['title']).encode('utf-8'),
-                         'album_id': unicode(album['id']).encode('utf-8')})
+                         #'foldername': unicode(album['title']).encode('utf-8'),
+                         #'album_id': unicode(album['id']).encode('utf-8')})
+                         'foldername': unicode(album['title']),
+                         'album_id': unicode(album['id'])})
         li = xbmcgui.ListItem(album['title'])
         li.setIconImage(subsonic.cover_art(album['id']))
         li.setThumbnailImage(subsonic.cover_art(album['id']))
