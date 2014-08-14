@@ -3,7 +3,7 @@ import sys
 import urllib
 import urlparse
 sys.path.append('./resources/lib')
-import requests
+import requests2
 
 
 def build_url(query):
